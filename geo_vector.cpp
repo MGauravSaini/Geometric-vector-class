@@ -10,14 +10,8 @@
 
 #include "geo_vector.h"
 
-#include <iostream>
-using namespace boost::units;
-using namespace boost::units::si;
-
+#include "geo_vector.h"
 namespace bg = boost::geometry;
-
-using namespace bg::model;
-using namespace bg::cs;
 
 /*
 * Below change_dimension() is a temporary template function
