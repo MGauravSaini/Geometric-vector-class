@@ -9,8 +9,6 @@
 */
 
 #include "geo_vector.h"
-
-#include "geo_vector.h"
 namespace bg = boost::geometry;
 
 /*
