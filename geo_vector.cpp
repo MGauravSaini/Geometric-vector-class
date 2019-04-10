@@ -19,8 +19,8 @@ namespace bg = boost::geometry;
 */
 
 template<typename change_to,typename current_dim>
-point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point)
-{
+point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point) {
+
 	current_dim C;
 	change_to   X;
 
@@ -346,7 +346,7 @@ void geo_vector<quant_type>::operator+=(const geo_vector<quant_type> &a) {
 
    	set_abscissa( get_abscissa() + a.get_abscissa() );
    	set_ordinate( get_ordinate() + a.get_ordinate() );
-    set_applicate( get_applicate() + a.get_applicate() );
+        set_applicate( get_applicate() + a.get_applicate() );
 }
 
 template <typename quant_type>
@@ -354,7 +354,7 @@ void geo_vector<quant_type>::operator-=(const geo_vector<quant_type> &a) {
 
    	set_abscissa( get_abscissa() - a.get_abscissa() );
    	set_ordinate( get_ordinate() - a.get_ordinate() );
-    set_applicate( get_applicate() - a.get_applicate() );
+        set_applicate( get_applicate() - a.get_applicate() );
 }
 
 template <typename quant_type>
