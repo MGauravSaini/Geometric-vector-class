@@ -11,6 +11,7 @@
 #define _GEO_VECTOR_
 
 #include <iostream>
+
 #include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/io.hpp>
 
@@ -100,7 +101,7 @@ public:
    
                                  /* Coming soon */
 
-   //====================   Operators overloading section section   ============
+   //====================   Operators overloading section   ===================
 
 
 
