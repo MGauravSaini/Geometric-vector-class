@@ -11,6 +11,8 @@ Make sure you include the necessary boost.units and boost.geometery library head
 To download Boost C++ Libraries click here -> [Boost C++ Libraries](https://www.boost.org/)
 
 # Examples and References:
+
+Don't forget to include geo_vector.h in your currect working directory before testing these Examples.
   
 1. [Addition of two Vectors](Examples/Vector%20addition/two_vector_addition.cpp)
 
