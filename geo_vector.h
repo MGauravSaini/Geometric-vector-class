@@ -23,6 +23,7 @@ using namespace boost::units::si;
 
 using namespace boost::geometry::model;
 using namespace boost::geometry::cs;
+namespace bg = boost::geometry;
 
 /*
 * Below change_dimension() is a temporary template function
@@ -37,7 +38,6 @@ point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<
 
 template <typename quant_type>
 class geo_vector {
-
 private: 
     
    typedef point<quantity <quant_type>, 3, cartesian> Point3D; 
@@ -89,8 +89,8 @@ public:
       Example call:- work = push.dot_prod_with<energy,force,quant_type>(displacement);
     */
    
-	template<typename quant_rtn_type, typename a_unit,typename b_unit>
-	quantity <quant_rtn_type> dot_prod_with(const geo_vector<b_unit> &b);
+  template<typename quant_rtn_type, typename a_unit,typename b_unit>
+  quantity <quant_rtn_type> dot_prod_with(const geo_vector<b_unit> &b);
 
    //Return vector getting by cross product of two passed vector
 
@@ -130,163 +130,20 @@ public:
 template<typename quant_type>
 std::ostream &operator <<(std::ostream &os,geo_vector<quant_type> v);
 
-#endif
-
-
-
-   
-
-/*
-*   geo_vector.h
-*
-*   Created by Gaurav Saini
-*
-*   Copyright 2019 Gaurav Saini. All rights reserved.
-*
-*/
-
-#ifndef _GEO_VECTOR_
-#define _GEO_VECTOR_
-
-#include <iostream>
-
-#include <boost/units/quantity.hpp>
-#include <boost/units/systems/si/io.hpp>
-
-#include <boost/geometry.hpp>
-
-using namespace boost::units;
-using namespace boost::units::si;
-
-
-using namespace boost::geometry::model;
-using namespace boost::geometry::cs;
-
-namespace bg = boost::geometry;
-
-/*
-* Below change_dimension() is a temporary template function
-* it is used to make quantities dimensionless from dimension and vice versa
-* this fuction is needed because some fuction from boost::geometry 
-* are not able to resolve the dimensions of quantities example in cross product
-*/
-
-template<typename change_to,typename current_dim>
-point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point);
-
-
-template <typename quant_type>
-
-//Main class
-class geo_vector {
-
-private: 
-    
-   typedef point<quantity <quant_type>, 3, cartesian> Point3D; 
-
-   Point3D p; //This class create a position vector of this point 
-   
-
-   void set_abscissa(const quantity <quant_type> &init_abscissa);  //Function to initialise the abscissa(x coordinate) of point
-   
-   void set_ordinate(const quantity <quant_type> &init_ordinate);  //Similaraly for y coordinate
-
-   void set_applicate(const quantity <quant_type> &init_applicate); //for z coordinate
-
-public:
-
-   quantity <quant_type> get_abscissa() const;  // This function returns the abscissa of point
-
-   quantity <quant_type> get_ordinate() const;  // Returns y coordinate
-
-   quantity <quant_type> get_applicate() const; //Return z coordinate
-
-   
-  //======================= Constructor section ================
-
-
-   geo_vector();         //Default constructor create a zero vector object
-   
-   geo_vector(const geo_vector<quant_type> &init_v);   //Copy constructor
-   
-   geo_vector(Point3D m_point);     //Constructor if a object of point type is passed
-   
-   geo_vector(Point3D initial_point,Point3D terminal_point);//Constructing a vector if two points are passed 
-
-   
-  //=================   Member function section =============================
- 
-   quantity <quant_type> magnitude(); //Returns the magnitude of calling vector
-   
-   void normalize(); //Normalize(changed to unit vector) the calling vector
-   
-   void reset_magnitude(quantity <quant_type> new_mag); //Change the magnitude of calling vector to passed magnitude
-    
-    //Return the quantity getting by dot product of two passed vector
-    
-    /*template argument 
-      1. type of quantity that a particular dot product is return e.g energy
-      2. type of quantity that calling vector have e.g force 
-      3. type of quantity that passed vector have e.g quant_type 
-      Example call:- work = push.dot_prod_with<energy,force,quant_type>(displacement);
-    */
-   
-	template<typename quant_rtn_type, typename a_unit,typename b_unit>
-	quantity <quant_rtn_type> dot_prod_with(const geo_vector<b_unit> &b);
-
-   //Return vector getting by cross product of two passed vector
-
-   geo_vector<quant_type> cross_prod_with(const geo_vector<quant_type> &b); 
-
-   
-   //======================= Angle Handling subsection =======================  
-   
-                                 /* Coming soon */
-
-   //====================   Operators overloading section   ===================
-
-
-
-   geo_vector<quant_type> operator+(const geo_vector<quant_type> &a) const;
-   
-   geo_vector<quant_type> operator-(const geo_vector<quant_type> &a) const;
-
-   //For product of a vector with a scalar e.g (v*5)
-   geo_vector<quant_type> operator*(const double &scalar) const; 
-
-   //For divide a vector by a scalar e.g (v/5)
-   geo_vector<quant_type> operator/(const double &scalar) const;
-
-   void operator=(const geo_vector<quant_type> &a);
-
-   void operator+=(const geo_vector<quant_type> &a);
-   
-   void operator-=(const geo_vector<quant_type> &a);
-
-   bool operator==(const geo_vector<quant_type>& v) const;
-   
-};
-
-
-/*
-* Below change_dimension() is a temporary template function
-* it is used to make quantities dimensionless from dimension and vice versa
-* this fuction is needed because some fuction from boost::geometry 
-* are not able to resolve the dimensions of quantities example in cross product
-*/
+//Definations
 
 template<typename change_to,typename current_dim>
 point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point) {
 
-	current_dim C;
-	change_to   X;
+  current_dim C;
+  change_to   X;
 
-	quantity<current_dim> x = bg::get<0>(input_point);
-	quantity<current_dim> y = bg::get<1>(input_point);
-	quantity<current_dim> z = bg::get<2>(input_point);
+  quantity<current_dim> x = bg::get<0>(input_point);
+  quantity<current_dim> y = bg::get<1>(input_point);
+  quantity<current_dim> z = bg::get<2>(input_point);
 
-	point<quantity<change_to> , 3 ,cartesian> A( ((x / C)*X) , ((y / C)*X) , ((z / C)*X) );
-	return A;
+  point<quantity<change_to> , 3 ,cartesian> A( ((x / C)*X) , ((y / C)*X) , ((z / C)*X) );
+  return A;
 }
    
 //Function to initialise the abscissa of point i.e x coordinate
@@ -294,20 +151,20 @@ point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<
 template <typename quant_type>
 void geo_vector<quant_type>::set_abscissa(const quantity <quant_type> &init_abscissa) {
 
-	bg::set<0>(p, init_abscissa);
+  bg::set<0>(p, init_abscissa);
 }
 
 template <typename quant_type>
 void geo_vector<quant_type>::set_ordinate(const quantity <quant_type> &init_ordinate) {
 
-	bg::set<1>(p, init_ordinate);
+  bg::set<1>(p, init_ordinate);
 
 }
 
 template <typename quant_type>
 void geo_vector<quant_type>::set_applicate(const quantity <quant_type> &init_applicate) { 
 
-	bg::set<2>(p, init_applicate);
+  bg::set<2>(p, init_applicate);
 }
 
 // This function returns the abscissa(x coordinate) of point
@@ -315,19 +172,19 @@ void geo_vector<quant_type>::set_applicate(const quantity <quant_type> &init_app
 template <typename quant_type>
 quantity <quant_type> geo_vector<quant_type>::get_abscissa() const {
 
-	return ( bg::get<0>(p) );
+  return ( bg::get<0>(p) );
 }
 
 template <typename quant_type>
 quantity <quant_type> geo_vector<quant_type>::get_ordinate() const {
 
-	return ( bg::get<1>(p) );
+  return ( bg::get<1>(p) );
 }
 
 template <typename quant_type>
 quantity <quant_type> geo_vector<quant_type>::get_applicate() const {
 
-	return ( bg::get<2>(p) );
+  return ( bg::get<2>(p) );
 }
 
  //======================= Constructor section ================
@@ -337,10 +194,10 @@ quantity <quant_type> geo_vector<quant_type>::get_applicate() const {
 template <typename quant_type>
 geo_vector<quant_type>::geo_vector() {
 
-	quant_type q_unit;
-	set_abscissa(0 * q_unit);
-	set_ordinate(0 * q_unit);
-	set_applicate(0 * q_unit); 
+  quant_type q_unit;
+  set_abscissa(0 * q_unit);
+  set_ordinate(0 * q_unit);
+  set_applicate(0 * q_unit); 
 }
 
 //Copy constructor
@@ -348,9 +205,9 @@ geo_vector<quant_type>::geo_vector() {
 template <typename quant_type>
 geo_vector<quant_type>::geo_vector(const geo_vector<quant_type> &init_v) {
 
-	set_abscissa(init_v.get_abscissa());
-	set_ordinate(init_v.get_ordinate());
-	set_applicate(init_v.get_applicate());
+  set_abscissa(init_v.get_abscissa());
+  set_ordinate(init_v.get_ordinate());
+  set_applicate(init_v.get_applicate());
 }
 
 //Constructor if an object of point type is passed
@@ -358,9 +215,9 @@ geo_vector<quant_type>::geo_vector(const geo_vector<quant_type> &init_v) {
 template <typename quant_type>
 geo_vector<quant_type>::geo_vector(Point3D m_point) {
 
-	set_abscissa(bg::get<0>(m_point));
-	set_ordinate(bg::get<1>(m_point));
-	set_applicate(bg::get<2>(m_point));
+  set_abscissa(bg::get<0>(m_point));
+  set_ordinate(bg::get<1>(m_point));
+  set_applicate(bg::get<2>(m_point));
 }
 
 //Constructing a vector if two points are given
@@ -368,9 +225,9 @@ geo_vector<quant_type>::geo_vector(Point3D m_point) {
 template <typename quant_type>
 geo_vector<quant_type>::geo_vector(Point3D initial_point,Point3D terminal_point) {
 
-	set_abscissa(bg::get<0>(terminal_point) - bg::get<0>(initial_point));
-	set_ordinate(bg::get<1>(terminal_point) - bg::get<1>(initial_point));
-	set_applicate(bg::get<2>(terminal_point) - bg::get<2>(initial_point));
+  set_abscissa(bg::get<0>(terminal_point) - bg::get<0>(initial_point));
+  set_ordinate(bg::get<1>(terminal_point) - bg::get<1>(initial_point));
+  set_applicate(bg::get<2>(terminal_point) - bg::get<2>(initial_point));
 }
 
 //=================   Member function section ========================
@@ -381,14 +238,14 @@ geo_vector<quant_type>::geo_vector(Point3D initial_point,Point3D terminal_point)
 template <typename quant_type>
 quantity <quant_type> geo_vector<quant_type>::magnitude() {
 
-	quant_type q_unit;
-	dimensionless d;
+  quant_type q_unit;
+  dimensionless d;
 
-	Point3D X(get_abscissa(),get_ordinate(),get_applicate()); //getting points from vector
+  Point3D X(get_abscissa(),get_ordinate(),get_applicate()); //getting points from vector
 
-	typedef point<quantity<dimensionless> , 3 ,cartesian> unitless_point;
+  typedef point<quantity<dimensionless> , 3 ,cartesian> unitless_point;
 
-	unitless_point origin(0 * d,0 * d,0 * d); //create a dimensionless origin point
+  unitless_point origin(0 * d,0 * d,0 * d); //create a dimensionless origin point
     
     /*
     * Since the distance function from boost::geometry is not able to resolve units
@@ -398,33 +255,33 @@ quantity <quant_type> geo_vector<quant_type>::magnitude() {
     *  returns dimensionless quantity which we further rechange to our original dimension
     */
 
-	unitless_point P = change_dimension<dimensionless,quant_type>(X);
+  unitless_point P = change_dimension<dimensionless,quant_type>(X);
 
-	quantity<dimensionless> D =  bg::distance<unitless_point,unitless_point>(origin,P);
+  quantity<dimensionless> D =  bg::distance<unitless_point,unitless_point>(origin,P);
 
-	return (D*q_unit); //multiplying to get our unit back
+  return (D*q_unit); //multiplying to get our unit back
 
-	/* An alternate way is to use root() and pow() functions from boost.units.cmath 
-	*                                
-	* return ( root<2> ( pow<2>(get_abscissa()) + pow<2>(get_ordinate()) + pow<2>(get_applicate()) ) );
+  /* An alternate way is to use root() and pow() functions from boost.units.cmath 
+  *                                
+  * return ( root<2> ( pow<2>(get_abscissa()) + pow<2>(get_ordinate()) + pow<2>(get_applicate()) ) );
     *
-	*/
+  */
 
 } 
 
 template <typename quant_type>
 void geo_vector<quant_type>::normalize() {
 
-	quantity <quant_type> l = magnitude();
-	quant_type q_unit;
-	if(l != 0 * q_unit) {
+  quantity <quant_type> l = magnitude();
+  quant_type q_unit;
+  if(l != 0 * q_unit) {
 
-		//Dividing by l make coordinate dimensionless
-		//To change them again to original unit I multiply with q_unit
-		set_abscissa((get_abscissa() / l) * q_unit); 
-		set_ordinate((get_ordinate() / l) * q_unit);
-		set_applicate((get_applicate() / l) * q_unit);
-	}
+    //Dividing by l make coordinate dimensionless
+    //To change them again to original unit I multiply with q_unit
+    set_abscissa((get_abscissa() / l) * q_unit); 
+    set_ordinate((get_ordinate() / l) * q_unit);
+    set_applicate((get_applicate() / l) * q_unit);
+  }
 }
 
 //Change the magnitude of calling vector to passed magnitude
@@ -432,18 +289,18 @@ void geo_vector<quant_type>::normalize() {
 template <typename quant_type>
 void geo_vector<quant_type>::reset_magnitude(quantity <quant_type> new_mag) {
 
-	quantity <quant_type> l = magnitude();
-	quant_type q_unit;
-	if(l == 0*q_unit) {
-		set_abscissa(new_mag);
-		set_ordinate(new_mag);
-		set_applicate(new_mag);
-	}
-	else {
-		set_abscissa ((get_abscissa() / l) * new_mag);
-		set_ordinate ((get_ordinate() / l) * new_mag);
-		set_applicate ((get_applicate() / l) * new_mag);
-	}
+  quantity <quant_type> l = magnitude();
+  quant_type q_unit;
+  if(l == 0*q_unit) {
+    set_abscissa(new_mag);
+    set_ordinate(new_mag);
+    set_applicate(new_mag);
+  }
+  else {
+    set_abscissa ((get_abscissa() / l) * new_mag);
+    set_ordinate ((get_ordinate() / l) * new_mag);
+    set_applicate ((get_applicate() / l) * new_mag);
+  }
 }
 
 //Dot product of two vectors
@@ -482,27 +339,27 @@ quantity <quant_rtn_type> geo_vector<quant_type>::dot_prod_with(const geo_vector
 template <typename quant_type>
 geo_vector<quant_type> geo_vector<quant_type>::cross_prod_with(const geo_vector<quant_type> &b) {
 
-	Point3D X(get_abscissa(),get_ordinate(),get_applicate());
-	Point3D Y(b.get_abscissa(),b.get_ordinate(),b.get_applicate());
+  Point3D X(get_abscissa(),get_ordinate(),get_applicate());
+  Point3D Y(b.get_abscissa(),b.get_ordinate(),b.get_applicate());
 
-	typedef point<quantity<dimensionless> ,3, cartesian> unitless_point;
+  typedef point<quantity<dimensionless> ,3, cartesian> unitless_point;
 
     //Making quantities dimensionless
 
-	unitless_point A = change_dimension<dimensionless,quant_type>(X);
-	unitless_point B = change_dimension<dimensionless,quant_type>(Y);
+  unitless_point A = change_dimension<dimensionless,quant_type>(X);
+  unitless_point B = change_dimension<dimensionless,quant_type>(Y);
     
     //Storing returning point in a dimensionless point c; 
 
-	unitless_point c = bg::cross_product<unitless_point,unitless_point,unitless_point>(A,B);
+  unitless_point c = bg::cross_product<unitless_point,unitless_point,unitless_point>(A,B);
     
     //creating point C by changing dimension of c to original
 
-	Point3D C = change_dimension<quant_type,dimensionless>(c);
+  Point3D C = change_dimension<quant_type,dimensionless>(c);
 
-	geo_vector<quant_type> result(C); //using geo_vector constructure 
+  geo_vector<quant_type> result(C); //using geo_vector constructure 
 
-	return result;
+  return result;
 }
 
 
@@ -517,48 +374,48 @@ geo_vector<quant_type> geo_vector<quant_type>::cross_prod_with(const geo_vector<
 template <typename quant_type>
 geo_vector<quant_type> geo_vector<quant_type>::operator+(const geo_vector<quant_type> &a) const {
 
-	Point3D P(get_abscissa(),get_ordinate(),get_applicate());
-	Point3D Q(a.get_abscissa(),a.get_ordinate(),a.get_applicate());
+  Point3D P(get_abscissa(),get_ordinate(),get_applicate());
+  Point3D Q(a.get_abscissa(),a.get_ordinate(),a.get_applicate());
      
     /* boost::geometry::add_point() does not erase dimension conflict
     *  because length+length = length
     *  so we can call add_point without modifying dimensions
    */
-	bg::add_point<Point3D,Point3D>(P,Q); //add_point changes P point
+  bg::add_point<Point3D,Point3D>(P,Q); //add_point changes P point
 
-	geo_vector<quant_type> result(P);
+  geo_vector<quant_type> result(P);
 
-	return result;
+  return result;
 
-	/*
-	*An alternate procedure is commented below in two lines of code.
-	*i.e without using boost::geometry::add_point() function
-	*
-	*result.set_abscissa( get_abscissa() + a.get_abscissa() );
-	*result.set_ordinate( get_ordinate() + a.get_ordinate() );
-	*
-	*/
+  /*
+  *An alternate procedure is commented below in two lines of code.
+  *i.e without using boost::geometry::add_point() function
+  *
+  *result.set_abscissa( get_abscissa() + a.get_abscissa() );
+  *result.set_ordinate( get_ordinate() + a.get_ordinate() );
+  *
+  */
 }
 
 template <typename quant_type>
 geo_vector<quant_type> geo_vector<quant_type>::operator-(const geo_vector<quant_type> &a) const {
 
-	Point3D P(get_abscissa(),get_ordinate(),get_applicate());
-	Point3D Q(a.get_abscissa(),a.get_ordinate(),a.get_applicate());
+  Point3D P(get_abscissa(),get_ordinate(),get_applicate());
+  Point3D Q(a.get_abscissa(),a.get_ordinate(),a.get_applicate());
 
-	bg::subtract_point<Point3D,Point3D>(P,Q);
+  bg::subtract_point<Point3D,Point3D>(P,Q);
 
-	geo_vector<quant_type> result(P);
-	return result;
+  geo_vector<quant_type> result(P);
+  return result;
 
-	/* 
-	 * An alternate procedure is commented below in two lines of code.
-	 * i.e without using boost::geometry::subtract_point() function
-	 *
-	 *result.set_abscissa( get_abscissa() - a.get_abscissa() );
-	 *result.set_ordinate( get_ordinate() - a.get_ordinate() );
-	 *
-	 */
+  /* 
+   * An alternate procedure is commented below in two lines of code.
+   * i.e without using boost::geometry::subtract_point() function
+   *
+   *result.set_abscissa( get_abscissa() - a.get_abscissa() );
+   *result.set_ordinate( get_ordinate() - a.get_ordinate() );
+   *
+   */
 }
 
 //for product of a geo_vector with a scalar (f*5)
@@ -566,11 +423,11 @@ geo_vector<quant_type> geo_vector<quant_type>::operator-(const geo_vector<quant_
 template <typename quant_type>
 geo_vector<quant_type> geo_vector<quant_type>::operator*(const double &scalar) const {
 
-	geo_vector<quant_type> result;
-	result.set_abscissa( scalar * get_abscissa() );
-	result.set_ordinate( scalar * get_ordinate() );
-	result.set_applicate( scalar * get_applicate() );
-	return result;
+  geo_vector<quant_type> result;
+  result.set_abscissa( scalar * get_abscissa() );
+  result.set_ordinate( scalar * get_ordinate() );
+  result.set_applicate( scalar * get_applicate() );
+  return result;
 }
 
 //for divide of a geo_vector with scalar
@@ -578,46 +435,46 @@ geo_vector<quant_type> geo_vector<quant_type>::operator*(const double &scalar) c
 template <typename quant_type>
 geo_vector<quant_type> geo_vector<quant_type>::operator/(const double &scalar) const {
 
-	if(scalar!=0) {
-		
-		geo_vector<quant_type> result;
-		result.set_abscissa( get_abscissa() / scalar );
-		result.set_ordinate( get_ordinate() / scalar );
-		result.set_applicate( get_applicate() / scalar );
-		return result;
-	}
-	else 
-		return *this;
+  if(scalar!=0) {
+    
+    geo_vector<quant_type> result;
+    result.set_abscissa( get_abscissa() / scalar );
+    result.set_ordinate( get_ordinate() / scalar );
+    result.set_applicate( get_applicate() / scalar );
+    return result;
+  }
+  else 
+    return *this;
 }
 
 template <typename quant_type>
 void geo_vector<quant_type>::operator=(const geo_vector<quant_type> &a) {
 
-	set_abscissa(a.get_abscissa());
-	set_ordinate(a.get_ordinate());
-	set_applicate(a.get_applicate());
+  set_abscissa(a.get_abscissa());
+  set_ordinate(a.get_ordinate());
+  set_applicate(a.get_applicate());
 }
 
 template <typename quant_type>
 void geo_vector<quant_type>::operator+=(const geo_vector<quant_type> &a) {
 
-   	set_abscissa( get_abscissa() + a.get_abscissa() );
-   	set_ordinate( get_ordinate() + a.get_ordinate() );
+    set_abscissa( get_abscissa() + a.get_abscissa() );
+    set_ordinate( get_ordinate() + a.get_ordinate() );
         set_applicate( get_applicate() + a.get_applicate() );
 }
 
 template <typename quant_type>
 void geo_vector<quant_type>::operator-=(const geo_vector<quant_type> &a) {
 
-   	set_abscissa( get_abscissa() - a.get_abscissa() );
-   	set_ordinate( get_ordinate() - a.get_ordinate() );
+    set_abscissa( get_abscissa() - a.get_abscissa() );
+    set_ordinate( get_ordinate() - a.get_ordinate() );
         set_applicate( get_applicate() - a.get_applicate() );
 }
 
 template <typename quant_type>
 bool geo_vector<quant_type>::operator==(const geo_vector<quant_type>& v) const {
 
-	return ( get_abscissa() == v.get_abscissa() && get_ordinate() == v.get_ordinate() && get_applicate() == v.get_applicate() );
+  return ( get_abscissa() == v.get_abscissa() && get_ordinate() == v.get_ordinate() && get_applicate() == v.get_applicate() );
 }
 
 template<typename quant_type>
