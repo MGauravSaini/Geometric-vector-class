@@ -1,11 +1,3 @@
-/*
-*   geo_vector.h
-*
-*   Created by Gaurav Saini - 2019.
-*
-*   Copyright 2019 Gaurav Saini. All rights reserved.
-*
-*/
 
 #ifndef _GEO_VECTOR_
 #define _GEO_VECTOR_
