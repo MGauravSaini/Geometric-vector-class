@@ -125,7 +125,8 @@ std::ostream &operator <<(std::ostream &os,geo_vector<quant_type> v);
 //Definations
 
 template<typename change_to,typename current_dim>
-point<quantity<change_to> , 3 ,cartesian> change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point) {
+point<quantity<change_to> , 3 ,cartesian>
+change_dimension(const point<quantity<current_dim> , 3 ,cartesian> &input_point) {
 
   current_dim C;
   change_to   X;
@@ -228,7 +229,7 @@ geo_vector<quant_type>::geo_vector(Point3D initial_point,Point3D terminal_point)
 //Returns the magnitude of calling vector
 
 template <typename quant_type>
-quantity <quant_type> geo_vector<quant_type>::magnitude() {
+quantity<quant_type> geo_vector<quant_type>::magnitude() {
 
   quant_type q_unit;
   dimensionless d;
