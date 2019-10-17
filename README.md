@@ -21,6 +21,8 @@ Don't forget to include geo_vector.h in your currect working directory before te
 3. [Dot product of two vectors](Examples/Vector%20Dot%20Product/Dot_product_of_two_Vectors.cpp)
 
 4. [Cross product of two vectors](Examples/Vector%20Cross%20Product/cross_product_of_two_vectors.cpp)
+
+5. [Normalizing a Vector](Examples/Normalization/normalise_vector.cpp)
                                      
 # Need your help
     
