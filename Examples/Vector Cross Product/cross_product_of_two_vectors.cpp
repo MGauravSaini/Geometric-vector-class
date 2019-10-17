@@ -2,8 +2,7 @@
 
 #include<iostream>
 
-
-int main() {
+int main(void) {
 
     //Defining a 3D point of force type
 
