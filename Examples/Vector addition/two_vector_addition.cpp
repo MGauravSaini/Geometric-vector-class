@@ -36,7 +36,7 @@ int main() {
 
   geo_vector<force> Resultant;
 
-  // f1 + f2 returns a resultant addition vector
+  // f1 + f2 returns a resultant addition vector and we store it in Resultant  
 
   Resultant = f1 + f2;
 
