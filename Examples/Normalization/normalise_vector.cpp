@@ -2,19 +2,6 @@
 
 #include<iostream>
 
-//Headers from boost libraries
-
-#include <boost/units/quantity.hpp>     
-#include <boost/units/systems/si/io.hpp>
-
-#include <boost/geometry.hpp>
-
-using namespace boost::units;
-using namespace boost::units::si;
-
-using namespace boost::geometry::model;
-using namespace boost::geometry::cs;
-
 int main(void) {
 
 	//Defining a 3D point of displacement type
